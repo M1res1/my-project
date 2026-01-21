@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Java CI with Gradle and Docker
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   build-java:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -25,14 +25,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: List build output (debug)
+    - name: List JAR files (debug)
       run: ls -l build/libs/
 
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
         image: nanajanashia/demo-app
-        tags: main-${{ github.sha }}
+        tag: main-${{ github.sha }}   # use singular 'tag'
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
