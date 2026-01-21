@@ -1,8 +1,14 @@
+# Use lightweight JDK 8
 FROM eclipse-temurin:8-jre-alpine
 
+# Expose application port
 EXPOSE 8080
 
-COPY ./build/libs/my-app-1.0-SNAPSHOT.jar /usr/app/
+# Create app directory
 WORKDIR /usr/app
 
-ENTRYPOINT ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
+# Copy any JAR from build/libs into the image
+COPY build/libs/*.jar app.jar
+
+# Set the default command to run the JAR
+ENTRYPOINT ["java","-jar","app.jar"]
